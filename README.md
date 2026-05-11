@@ -16,6 +16,7 @@ The codebase provides:
 
 - dataset normalization for `Fin-Fact`,
 - health-domain experiment configs for `OpenMed/PubHealth-Processed` and `ClassyB/Health_Misinformation`,
+- multi-model sweep configs for comparing several neural backbones on the same dataset,
 - weak rationale supervision by aligning evidence text to context sentences,
 - rationale-aware label classification,
 - a stronger transformer-based classifier for paper-facing experiments,
@@ -121,6 +122,12 @@ Run the two health-domain benchmarks end to end:
 python scripts/run_health_benchmarks.py
 ```
 
+Run a multi-model neural sweep on one dataset:
+
+```bash
+python scripts/run_model_sweep.py --config configs/model_sweep_health_claims.yaml
+```
+
 ## Google Colab
 
 In Colab, the following is usually enough:
@@ -137,6 +144,7 @@ In Colab, the following is usually enough:
 !python scripts/run_ablation_suite.py --config configs/ablations.yaml --make-table
 !python scripts/generate_emnlp_report.py --runs outputs/smoke outputs/neural_smoke --ablation-summary outputs/ablations/ablation_summary.json --output-dir outputs/report
 !python scripts/run_health_benchmarks.py
+!python scripts/run_model_sweep.py --config configs/model_sweep_health_claims.yaml
 ```
 
 ## Methodology mapping
@@ -158,4 +166,5 @@ This implementation operationalizes the proposal as follows:
 - The default stack uses `sentence-transformers/all-MiniLM-L6-v2` for fast Colab-friendly sentence embeddings.
 - `configs/neural.yaml` is the paper-facing neural default, while `configs/neural_smoke.yaml` is the faster verification setup.
 - `configs/ablations.yaml` defines a reproducible smoke-scale ablation suite over digest, rationale, and counterfactual components.
+- `configs/model_sweep_health_claims.yaml` and `configs/model_sweep_pubhealth.yaml` compare multiple neural backbones on the same benchmark.
 - For health misinformation, this repo currently supports `OpenMed/PubHealth-Processed` and `ClassyB/Health_Misinformation` as the two directly usable datasets in this environment. The discovered `MedHelp` dataset here is not a misinformation benchmark, and the older SciFact script loaders exposed through `datasets` are currently deprecated.

@@ -1,0 +1,29 @@
+base_config: configs/health_claims_neural.yaml
+output_root: outputs/model_sweep_health_claims
+report_output_dir: outputs/model_sweep_health_claims_report
+metric: micro_f1
+
+models:
+  - name: bert_tiny
+    model_name: prajjwal1/bert-tiny
+    overrides:
+      neural:
+        epochs: 2
+        batch_size: 8
+        max_length: 256
+
+  - name: distilroberta
+    model_name: distilroberta-base
+    overrides:
+      neural:
+        epochs: 2
+        batch_size: 8
+        max_length: 384
+
+  - name: deberta_v3_small
+    model_name: microsoft/deberta-v3-small
+    overrides:
+      neural:
+        epochs: 2
+        batch_size: 8
+        max_length: 384

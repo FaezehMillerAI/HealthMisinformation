@@ -91,8 +91,14 @@ class NeuralCGSEPipeline:
 
         self.model.train()
         running_losses = []
-        for _ in range(int(self.neural_config["epochs"])):
-            for batch in tqdm(dataloader, desc="training", leave=False):
+        total_epochs = int(self.neural_config["epochs"])
+        for epoch_index in range(total_epochs):
+            epoch_bar = tqdm(
+                dataloader,
+                desc=f"training epoch {epoch_index + 1}/{total_epochs}",
+                leave=False,
+            )
+            for batch in epoch_bar:
                 batch = {key: value.to(self.device) for key, value in batch.items()}
                 outputs = self.model(**batch)
                 loss = outputs.loss
@@ -101,7 +107,9 @@ class NeuralCGSEPipeline:
                 optimizer.step()
                 scheduler.step()
                 optimizer.zero_grad()
-                running_losses.append(float(loss.detach().cpu()))
+                loss_value = float(loss.detach().cpu())
+                running_losses.append(loss_value)
+                epoch_bar.set_postfix(loss=f"{loss_value:.4f}")
         return {"train_loss": float(np.mean(running_losses)) if running_losses else 0.0}
 
     def evaluate(self, examples: Sequence[FinFactExample]) -> Dict:

@@ -5,6 +5,7 @@ from typing import Dict, List, Sequence
 
 import joblib
 import numpy as np
+from tqdm import tqdm
 
 from finfact_cgse.data.counterfactuals import CounterfactualGenerator
 from finfact_cgse.data.dataset import FinFactExample
@@ -53,7 +54,13 @@ class CGSEPipeline:
         training_rows = []
         labels = []
 
-        for example in examples:
+        iterator = tqdm(
+            examples,
+            desc="classical feature building",
+            total=len(examples),
+            leave=False,
+        )
+        for example in iterator:
             annotation = self.aligner.annotate_with_query(
                 example,
                 query_text=self._query_text(example),
@@ -117,7 +124,13 @@ class CGSEPipeline:
 
     def predict(self, examples: Sequence[FinFactExample]) -> List[PredictionRecord]:
         outputs = []
-        for example in examples:
+        iterator = tqdm(
+            examples,
+            desc="classical predicting",
+            total=len(examples),
+            leave=False,
+        )
+        for example in iterator:
             annotation = self.aligner.annotate_with_query(
                 example,
                 query_text=self._query_text(example),
