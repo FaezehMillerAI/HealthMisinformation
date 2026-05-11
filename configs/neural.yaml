@@ -38,7 +38,7 @@ neural:
   learning_rate: 2.0e-5
   weight_decay: 0.01
   batch_size: 8
-  epochs: 5
+  epochs: 10
   warmup_ratio: 0.1
   gradient_clip_norm: 1.0
   device: auto
