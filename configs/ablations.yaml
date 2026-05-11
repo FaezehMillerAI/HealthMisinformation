@@ -1,0 +1,50 @@
+mode: smoke
+output_root: outputs/ablations
+
+baseline_config: configs/smoke.yaml
+neural_config: configs/neural_smoke.yaml
+
+variants:
+  - name: baseline_full
+    family: baseline
+    overrides: {}
+
+  - name: baseline_no_counterfactuals
+    family: baseline
+    overrides:
+      counterfactuals:
+        enabled: false
+
+  - name: baseline_no_digest
+    family: baseline
+    overrides:
+      feature_flags:
+        use_digest: false
+
+  - name: baseline_no_rationale
+    family: baseline
+    overrides:
+      feature_flags:
+        use_rationale: false
+
+  - name: neural_full
+    family: neural
+    overrides: {}
+
+  - name: neural_no_counterfactuals
+    family: neural
+    overrides:
+      counterfactuals:
+        enabled: false
+
+  - name: neural_no_digest
+    family: neural
+    overrides:
+      feature_flags:
+        use_digest: false
+
+  - name: neural_no_rationale
+    family: neural
+    overrides:
+      feature_flags:
+        use_rationale: false

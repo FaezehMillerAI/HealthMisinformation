@@ -1,0 +1,41 @@
+experiment_name: health_pubhealth_classic
+seed: 42
+output_dir: outputs/health_pubhealth_classic
+
+data:
+  dataset_name: OpenMed/PubHealth-Processed
+  adapter: pubhealth
+  use_dataset_splits: true
+  train_split_name: train
+  validation_split_name: validation
+  test_size: 0.2
+  max_train_samples: 2000
+  max_val_samples: 400
+
+feature_flags:
+  use_digest: true
+  use_rationale: true
+  use_context: true
+
+rationale:
+  encoder_name: sentence-transformers/all-MiniLM-L6-v2
+  top_k: 3
+  evidence_weight: 0.7
+  claim_weight: 0.3
+
+counterfactuals:
+  enabled: true
+  max_per_example: 1
+
+classifier:
+  max_features: 8000
+  ngram_max: 2
+  c: 4.0
+  max_iter: 2000
+
+explanations:
+  max_rationale_sentences: 3
+
+smoke:
+  train_samples: 96
+  val_samples: 24

@@ -1,0 +1,37 @@
+experiment_name: default
+seed: 42
+output_dir: outputs/default
+
+data:
+  dataset_name: amanrangapur/Fin-Fact
+  test_size: 0.2
+  max_train_samples: null
+  max_val_samples: null
+
+feature_flags:
+  use_digest: true
+  use_rationale: true
+  use_context: true
+
+rationale:
+  encoder_name: sentence-transformers/all-MiniLM-L6-v2
+  top_k: 3
+  evidence_weight: 0.7
+  claim_weight: 0.3
+
+counterfactuals:
+  enabled: true
+  max_per_example: 1
+
+classifier:
+  max_features: 6000
+  ngram_max: 2
+  c: 4.0
+  max_iter: 2000
+
+explanations:
+  max_rationale_sentences: 3
+
+smoke:
+  train_samples: 64
+  val_samples: 16

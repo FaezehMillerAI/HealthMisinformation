@@ -1,0 +1,53 @@
+experiment_name: health_claims_neural
+seed: 42
+output_dir: outputs/health_claims_neural
+label_list: ["false", "true"]
+
+data:
+  dataset_name: ClassyB/Health_Misinformation
+  adapter: health_misinformation
+  use_dataset_splits: false
+  train_split_name: train
+  test_size: 0.2
+  max_train_samples: null
+  max_val_samples: null
+
+feature_flags:
+  use_digest: true
+  use_rationale: true
+  use_context: true
+
+rationale:
+  encoder_name: sentence-transformers/all-MiniLM-L6-v2
+  top_k: 2
+  evidence_weight: 0.7
+  claim_weight: 0.3
+
+counterfactuals:
+  enabled: true
+  max_per_example: 1
+
+classifier:
+  max_features: 4000
+  ngram_max: 2
+  c: 4.0
+  max_iter: 2000
+
+explanations:
+  max_rationale_sentences: 2
+
+neural:
+  model_name: prajjwal1/bert-tiny
+  max_length: 256
+  learning_rate: 3.0e-5
+  weight_decay: 0.01
+  batch_size: 8
+  epochs: 2
+  warmup_ratio: 0.0
+  gradient_clip_norm: 1.0
+  device: auto
+  rationale_dropout: 0.1
+
+smoke:
+  train_samples: 64
+  val_samples: 16

@@ -1,0 +1,49 @@
+experiment_name: neural
+seed: 42
+output_dir: outputs/neural
+
+data:
+  dataset_name: amanrangapur/Fin-Fact
+  test_size: 0.2
+  max_train_samples: 1200
+  max_val_samples: 300
+
+feature_flags:
+  use_digest: true
+  use_rationale: true
+  use_context: true
+
+rationale:
+  encoder_name: sentence-transformers/all-MiniLM-L6-v2
+  top_k: 3
+  evidence_weight: 0.7
+  claim_weight: 0.3
+
+counterfactuals:
+  enabled: true
+  max_per_example: 1
+
+classifier:
+  max_features: 6000
+  ngram_max: 2
+  c: 4.0
+  max_iter: 2000
+
+explanations:
+  max_rationale_sentences: 3
+
+neural:
+  model_name: distilroberta-base
+  max_length: 384
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  batch_size: 8
+  epochs: 2
+  warmup_ratio: 0.1
+  gradient_clip_norm: 1.0
+  device: auto
+  rationale_dropout: 0.1
+
+smoke:
+  train_samples: 64
+  val_samples: 16
